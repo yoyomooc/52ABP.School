@@ -15,3 +15,6 @@
  所有课程的源代码均可以到Github进行下载！
 
  地址： https://github.com/52ABP/52ABP.School
+
+
+ 2017年11月19日16:16:12，测试从VSTS进行修改。
