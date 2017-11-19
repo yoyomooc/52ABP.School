@@ -1,0 +1,30 @@
+﻿@model LTM.School.Core.Models.Student
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RealName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RealName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EnrollmentDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EnrollmentDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
