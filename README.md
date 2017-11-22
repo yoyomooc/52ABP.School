@@ -3,7 +3,13 @@
 
 本次课程会使用.NET CORE及EF CORE作为核心技术，带大家做出一个简单的学校管理系统。
 
+SyncToGithub的编译状态：[<img src="https://52abp.visualstudio.com/_apis/public/build/definitions/ca83ba7d-c1a1-4c51-b7e2-d889c38e3d13/3/badge">](https://52abp.visualstudio.com/_apis/public/build/definitions/ca83ba7d-c1a1-4c51-b7e2-d889c38e3d13/3/badge)
+ VSTS推送代码到github。
 
+
+
+SyncFromGitHub的编译状态：[<img src="https://52abp.visualstudio.com/_apis/public/build/definitions/ca83ba7d-c1a1-4c51-b7e2-d889c38e3d13/4/badge">](https://52abp.visualstudio.com/_apis/public/build/definitions/ca83ba7d-c1a1-4c51-b7e2-d889c38e3d13/4/badge)
+Github推送代码到Vsts仓库。
 
 # 从0开始
 
