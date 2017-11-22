@@ -19,7 +19,7 @@ namespace LTM.School.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            var dtos = await _context.Students.ToListAsync();
+            var dtos = await _context.Students.AsNoTracking().ToListAsync();
        
             return View(dtos);
         }
@@ -35,8 +35,10 @@ namespace LTM.School.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var student = await _context.Students.Include(a=>a.Enrollments).ThenInclude(e=>e.Course).AsNoTracking()
                 .SingleOrDefaultAsync(m => m.Id == id);
+
+            //FirstOrDefaultAsync
             if (student == null)
             {
                 return NotFound();
