@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using LTM.School.Application.Dtos;
 using LTM.School.Core.Models;
 using LTM.School.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
@@ -58,15 +60,35 @@ namespace LTM.School.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RealName,EnrollmentDate")] Student student)
+        public async Task<IActionResult> Create(StudentDto dto)
         {
-            if (ModelState.IsValid)
+
+            try
             {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    var entity = new Student
+                    {
+                        RealName = dto.RealName,
+                        EnrollmentDate = dto.EnrollmentDate
+                    };
+
+
+                    _context.Add(entity);
+                    await _context.SaveChangesAsync();
+                    
+          return RedirectToAction(nameof(Index));
+                }
+             
+
             }
-            return View(student);
+            catch (DbUpdateException ex)
+            {
+               
+                ModelState.AddModelError("","无法进行数据的保存，请仔细检查你的数据，是否异常。");
+            }
+
+            return View(dto);
         }
 
         // GET: Students/Edit/5
