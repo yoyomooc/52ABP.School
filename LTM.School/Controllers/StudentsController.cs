@@ -63,6 +63,9 @@ namespace LTM.School.Controllers
         public async Task<IActionResult> Create(StudentDto dto)
         {
 
+            //CSRF参考资料：   http://www.freebuf.com/articles/web/55965.html
+
+
             try
             {
                 if (ModelState.IsValid)
