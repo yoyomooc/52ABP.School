@@ -1,13 +1,13 @@
 ﻿@model LTM.School.Core.Models.Student
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "详情页";
 }
 
-<h2>Details</h2>
+<h2>详情页</h2>
 
 <div>
-    <h4>Student</h4>
+    <h4>学生信息</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -49,6 +49,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">编辑</a> |
+    <a asp-action="Index">返回列表</a>
 </div>

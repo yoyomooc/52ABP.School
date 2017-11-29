@@ -122,42 +122,46 @@ namespace LTM.School.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var entity = await _context.Students.SingleOrDefaultAsync(a => a.Id == id);
+
+            if (await  TryUpdateModelAsync<Student>(entity,"",s=>s.RealName,s=>s.EnrollmentDate))
             {
                 try
                 {
-                    _context.Update(student);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException e)
                 {
-                    if (!StudentExists(student.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+
+                    ModelState.AddModelError("", "无法进行数据的保存，请仔细检查你的数据，是否异常。");
                 }
-                return RedirectToAction(nameof(Index));
             }
+
+
+
+        
             return View(student);
         }
 
         // GET: Students/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id,bool? saveChangesError=false)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var student = await _context.Students.AsNoTracking()
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
                 return NotFound();
+            }
+
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.SaveError = "删除失败。请再次尝试，如果尝试失败，请联系系统管理员。";
             }
 
             return View(student);
@@ -168,10 +172,24 @@ namespace LTM.School.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Students.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var student = await _context.Students.AsNoTracking().SingleOrDefaultAsync(m => m.Id == id);
+            if (student==null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            try
+            {
+                _context.Students.Remove(student);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException e)
+            {
+                return RedirectToAction(nameof(Delete),new {id, saveChangesError =true});
+            }
+
+          
+         
         }
 
         private bool StudentExists(int id)
