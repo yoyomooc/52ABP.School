@@ -9,7 +9,7 @@ namespace LTM.School.EntityFramework.Data
     {
         public static void Initialize(SchoolDbContext context)
         {
-            context.Database.EnsureCreated();
+        //    context.Database.EnsureCreated();
 
             // 检查是否有学生信息
             if (context.Students.Any())
