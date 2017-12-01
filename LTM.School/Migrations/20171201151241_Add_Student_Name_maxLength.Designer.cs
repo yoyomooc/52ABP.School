@@ -12,9 +12,10 @@ using System;
 namespace LTM.School.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171201151241_Add_Student_Name_maxLength")]
+    partial class Add_Student_Name_maxLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,8 +67,7 @@ namespace LTM.School.Migrations
                     b.Property<string>("RealName")
                         .HasMaxLength(30);
 
-                    b.Property<string>("Secret")
-                        .HasMaxLength(200);
+                    b.Property<string>("Secret");
 
                     b.HasKey("Id");
 

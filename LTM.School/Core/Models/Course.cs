@@ -3,7 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using LTM.School.Application.enumsType;
 
 namespace LTM.School.Core.Models
-{
+{/// <summary>
+/// 课程
+/// </summary>
     public class Course
     {
      //   [DatabaseGenerated(DatabaseGeneratedOption.None)]

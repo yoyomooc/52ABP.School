@@ -2,6 +2,9 @@
 
 namespace LTM.School.Core.Models
 {
+    /// <summary>
+    /// 注册信息
+    /// </summary>
     public class Enrollment
     {
         public int EnrollmentId { get; set; }
