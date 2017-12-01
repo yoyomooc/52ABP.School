@@ -15,7 +15,7 @@ namespace LTM.School.Core.Models
 
 
         [Required]
-        [StringLength(30,ErrorMessage = "姓名长度不能超过30个字符。")]
+        [MaxLength(30,ErrorMessage = "姓名长度不能超过30个字符。")]
         [DisplayName("学生姓名")]
         public string RealName { get; set; }
 
