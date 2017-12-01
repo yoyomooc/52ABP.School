@@ -1,8 +1,33 @@
-﻿@{
-    ViewData["Title"] = "About";
+﻿@using LTM.School.ViewModels
+@model List<LTM.School.ViewModels.EnrollmentDateGroup>
+@{
+    ViewData["Title"] = "关于我们";
 }
+
+
+<h2>学生信息统计</h2>
+<table>
+    <tr>
+        <th>注册时间</th>
+        <th>学生人数</th>
+    </tr>
+    
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(a=>item.EnrollmenDate)</td>
+            <td>@Html.DisplayFor(a => item.StudentCount)</td>
+
+        </tr>
+    }
+   
+
+</table>
+
+
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
+
 
 <p>我叫梁桐铭， 微软最有价值专家(MVP)。
     从事.NET开发5年有余，业余爱好看点书、玩点单机游戏。微软粉。从2015年5月开始在国内的开源社区中进行推广ASP.NETBoilerplate Project开源框架，创建了”角落的白板报”博客，发表一些基础性文章来帮助大家提高开发技巧!制作了代码生成器(ABP Code Generator)，辅助与ABP框架以提高开发人员的效率。
