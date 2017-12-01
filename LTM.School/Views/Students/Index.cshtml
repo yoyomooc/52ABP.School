@@ -1,4 +1,6 @@
-﻿@model IEnumerable<LTM.School.Core.Models.Student>
+﻿@using LTM.School.Common
+@using LTM.School.Core.Models
+@model LTM.School.Common.PaginatedList<LTM.School.Core.Models.Student>
 
 @{
     ViewData["Title"] = "学生列表";
@@ -29,10 +31,10 @@
     <thead>
     <tr>
         <th>
-            <a asp-action="Index" asp-route-sortOrder="@ViewData["Name_Sort_Parm"]">@Html.DisplayNameFor(model => model.RealName)</a>
+            <a asp-action="Index" asp-route-currentStudent="@ViewData["SearchStudent"]" asp-route-sortOrder="@ViewData["Name_Sort_Parm"]">姓名</a>
         </th>
         <th>
-            <a asp-action="Index" asp-route-sortOrder="@ViewData["Date_Sort_Parm"]">@Html.DisplayNameFor(model => model.EnrollmentDate)</a>
+            <a asp-action="Index" asp-route-currentStudent="@ViewData["SearchStudent"]" asp-route-sortOrder="@ViewData["Date_Sort_Parm"]">注册时间</a>
 
 
         </th>
@@ -58,3 +60,10 @@
     }
     </tbody>
 </table>
+@{
+    var prevDisable = !Model.HasPreViousPage ? "disabled" : "";
+    var nextDisable = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index" class="btn btn-default @prevDisable" asp-route-sortOrder="@ViewData["CurrentSort"]"asp-route-page="@(Model.PageIndex-1)"asp-route-currentStudent="@ViewData["currentStudent"]"  >上一页</a>
+<a asp-action="Index" class="btn btn-default @nextDisable" asp-route-sortOrder="@ViewData["CurrentSort"]"asp-route-page="@(Model.PageIndex+1)"asp-route-currentStudent="@ViewData["currentStudent"]"  >下一页</a>
