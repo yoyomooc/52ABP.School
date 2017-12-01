@@ -9,20 +9,39 @@
 <p>
     <a asp-action="Create">添加</a>
 </p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            姓名：<input type="text" name="searchStudent" value="@ViewData["SearchStudent"]" />
+            <input type="submit" value="搜索" class="btn btn-default"/>|
+            <a asp-action="Index">查询所有</a>
+        </p>
+        
+
+    </div>
+    
+
+</form>
+
+
 <table class="table">
     <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.RealName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EnrollmentDate)
-                </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["Name_Sort_Parm"]">@Html.DisplayNameFor(model => model.RealName)</a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["Date_Sort_Parm"]">@Html.DisplayNameFor(model => model.EnrollmentDate)</a>
+
+
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.RealName)
@@ -36,6 +55,6 @@
                 <a asp-action="Delete" asp-route-id="@item.Id">删除</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

@@ -19,10 +19,44 @@ namespace LTM.School.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder,string searchStudent)
         {
-            var dtos = await _context.Students.AsNoTracking().ToListAsync();
-       
+            ViewData["Name_Sort_Parm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc":"";
+            ViewData["Date_Sort_Parm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            ViewData["SearchStudent"] = searchStudent;
+
+            var students = from student in _context.Students select student;
+
+            if (!string.IsNullOrWhiteSpace(searchStudent))
+            {
+                students= students.Where(a => a.RealName.Contains(searchStudent));
+            }
+
+
+
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+               students=     students.OrderByDescending(a => a.RealName);
+                    break;
+
+                case "Date":
+                    students = students.OrderBy(a => a.EnrollmentDate);
+                    break;
+
+                case "date_desc":
+                    students = students.OrderByDescending(a => a.EnrollmentDate);
+                    break;
+
+                default:
+                    students = students.OrderBy(a => a.RealName);
+                    break;
+            }
+
+            var dtos = await students.AsNoTracking().ToListAsync();
+          
             return View(dtos);
         }
 
