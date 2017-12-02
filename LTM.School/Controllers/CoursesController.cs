@@ -48,6 +48,7 @@ namespace LTM.School.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
+           
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Id");
             return View();
         }

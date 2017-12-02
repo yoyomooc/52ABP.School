@@ -114,7 +114,7 @@
         @foreach (var enrollment in Model.Enrollments)
         {
             <tr>
-                <td>@enrollment.Student</td>
+                <td>@enrollment.Student.RealName</td>
                 <td>@enrollment.Grade</td>
             </tr>
         }

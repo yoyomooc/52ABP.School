@@ -42,12 +42,7 @@ namespace LTM.School.Controllers
             {
                 ViewData["CourseId"] = courseId.Value;
               viewModel.Enrollments = viewModel.Courses.Single(a => a.CourseId == courseId).Enrollments.ToList();
-
-
-
-
-
-
+                
             }
 
 
