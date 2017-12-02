@@ -1,30 +1,70 @@
-﻿@model LTM.School.Core.Models.Instructor
+﻿@using LTM.School.ViewModels
+@model LTM.School.Core.Models.Instructor
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "编辑教师信息";
 }
 
-<h2>Edit</h2>
+<h2>编辑教师信息</h2>
 
-<h4>Instructor</h4>
-<hr />
+<hr/>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Id"/>
             <div class="form-group">
                 <label asp-for="RealName" class="control-label"></label>
-                <input asp-for="RealName" class="form-control" />
+                <input asp-for="RealName" class="form-control"/>
                 <span asp-validation-for="RealName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HireDate" class="control-label"></label>
-                <input asp-for="HireDate" class="form-control" />
+                <input asp-for="HireDate" class="form-control"/>
                 <span asp-validation-for="HireDate" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <label asp-for="OfficeAssignment.Location" class="control-label"></label>
+                <input asp-for="OfficeAssignment.Location" class="form-control"/>
+                <span asp-validation-for="OfficeAssignment.Location" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label  class="control-label">课程列表：</label>
+                <div class="col-md-offset-1 col-md-10">
+                    <table>
+                        <tr>
+                            @{
+                                var count = 0;
+                                var courseDatas = (List<AssignedCourseData>) ViewData["Cousers"];
+                                foreach (var item in courseDatas)
+                                {
+                                    if (count++ % 3 == 0)
+                                    {
+                                        @:<tr></tr>
+
+                                    }
+                                    <td>
+                                        <input type="checkbox" name="selectedCourses" value="@item.CourseId" @(Html.Raw(item.Assigned ? "checked='checked'" : ""))/>
+                                        @item.CourseId @item.Title
+
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    </table>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="保存" class="btn btn-default"/>
             </div>
         </form>
     </div>
@@ -35,5 +75,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using LTM.School.Core.Models;
 using LTM.School.EntityFramework;
@@ -30,7 +31,7 @@ namespace LTM.School.Controllers
             };
 
 
-            if (id!=null)
+            if (id != null)
             {
                 ViewData["InstructorId"] = id.Value;
                 var instructor = viewModel.Instructors.Single(a => a.Id == id.Value);
@@ -38,17 +39,14 @@ namespace LTM.School.Controllers
                 viewModel.Courses = instructor.CourseAssignments.Select(a => a.Course).ToList();
             }
 
-            if (courseId!=null)
+            if (courseId != null)
             {
                 ViewData["CourseId"] = courseId.Value;
-              viewModel.Enrollments = viewModel.Courses.Single(a => a.CourseId == courseId).Enrollments.ToList();
-                
+                viewModel.Enrollments = viewModel.Courses.Single(a => a.CourseId == courseId).Enrollments.ToList();
             }
 
 
-
             return View(viewModel);
-
         }
 
         // GET: Instructors/Details/5
@@ -93,9 +91,15 @@ namespace LTM.School.Controllers
             if (id == null)
                 return NotFound();
 
-            var instructor = await _context.Instructors.SingleOrDefaultAsync(m => m.Id == id);
+            var instructor = await _context.Instructors
+                .Include(a => a.OfficeAssignment)
+                .Include(a => a.CourseAssignments)
+                .ThenInclude(a => a.Course).AsNoTracking()
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (instructor == null)
                 return NotFound();
+
+            PopulateAssignedCourseData(instructor);
             return View(instructor);
         }
 
@@ -103,28 +107,42 @@ namespace LTM.School.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RealName,HireDate")] Instructor instructor)
+        public async Task<IActionResult> EditPost(int? id,string [] selectedCourses)
         {
-            if (id != instructor.Id)
+            if (id == null)
                 return NotFound();
 
-            if (ModelState.IsValid)
+            var instructorToUpdate = await _context.Instructors.Include(a => a.OfficeAssignment)
+                .Include(a => a.CourseAssignments).ThenInclude(a => a.Course)
+                .SingleOrDefaultAsync(s => s.Id == id);
+
+
+            if (await TryUpdateModelAsync(instructorToUpdate, "", a => a.RealName, a => a.HireDate,
+                a => a.OfficeAssignment))
             {
+                if (string.IsNullOrWhiteSpace(instructorToUpdate.OfficeAssignment?.Location))
+                    instructorToUpdate.OfficeAssignment = null;
+
+                UpdateInstructorCourses(selectedCourses, instructorToUpdate);
+
                 try
                 {
-                    _context.Update(instructor);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException e)
                 {
-                    if (!InstructorExists(instructor.Id))
-                        return NotFound();
-                    throw;
+                    ModelState.AddModelError("", "无法进行数据的保存，请仔细检查你的数据，是否异常。");
                 }
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(instructor);
+
+            UpdateInstructorCourses(selectedCourses, instructorToUpdate);
+            PopulateAssignedCourseData(instructorToUpdate);
+
+            return View(instructorToUpdate);
         }
 
         // GET: Instructors/Delete/5
@@ -152,6 +170,80 @@ namespace LTM.School.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+        #region 更改老师的授课信息表
+
+        /// <summary>
+        ///     更改老师的授课信息表
+        /// </summary>
+        /// <param name="selecteedCourses">选中的课程信息</param>
+        /// <param name="instructorToUpdate">需要修改信息的教师实体</param>
+        private void UpdateInstructorCourses(string[] selecteedCourses, Instructor instructorToUpdate)
+        {
+            if (selecteedCourses == null)
+            {
+                instructorToUpdate.CourseAssignments = new List<CourseAssignment>();
+                return;
+            }
+            var selectedCoursesHs = new HashSet<string>(selecteedCourses);
+            var instructorCourses = new HashSet<int>(instructorToUpdate.CourseAssignments.Select(a => a.CourseId));
+
+            foreach (var course in _context.Courses)
+
+                if (selectedCoursesHs.Contains(course.CourseId.ToString()))
+                {
+                    if (!instructorCourses.Contains(course.CourseId))
+                        instructorToUpdate.CourseAssignments.Add(
+                            new CourseAssignment
+                            {
+                                InstructorId = instructorToUpdate.Id,
+                                CourseId = course.CourseId
+                            });
+                }
+                else
+                {
+                    if (instructorCourses.Contains(course.CourseId))
+                    {
+                        var courseToRemove =
+                            instructorToUpdate.CourseAssignments.SingleOrDefault(a => a.CourseId == course.CourseId);
+
+                        _context.Remove(courseToRemove);
+                    }
+                }
+        }
+
+        #endregion
+
+
+        #region 填充分配课程表
+
+        /// <summary>
+        ///     给老师分配课程
+        /// </summary>
+        /// <param name="instructor"></param>
+        private void PopulateAssignedCourseData(Instructor instructor)
+        {
+            var couserList = _context.Courses;
+
+
+            var instructorCourses = new HashSet<int>(instructor.CourseAssignments.Select(a => a.CourseId));
+
+            var viewModel = new List<AssignedCourseData>();
+
+            foreach (var course in couserList)
+                viewModel.Add(new AssignedCourseData
+                {
+                    CourseId = course.CourseId,
+                    Title = course.Title,
+                    Assigned = instructorCourses.Contains(course.CourseId)
+                });
+
+            ViewData["Cousers"] = viewModel;
+        }
+
+        #endregion
+
 
         private bool InstructorExists(int id)
         {
