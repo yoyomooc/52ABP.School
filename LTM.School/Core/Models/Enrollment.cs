@@ -1,4 +1,5 @@
-﻿using LTM.School.Application.enumsType;
+﻿using System.ComponentModel.DataAnnotations;
+using LTM.School.Application.enumsType;
 
 namespace LTM.School.Core.Models
 {
@@ -9,6 +10,7 @@ namespace LTM.School.Core.Models
     {
         public int EnrollmentId { get; set; }
 
+        [DisplayFormat(NullDisplayText = "暂无成绩")]
         public CourseGrade? Grade { get; set; }
 
         public int StudentId { get; set; }
