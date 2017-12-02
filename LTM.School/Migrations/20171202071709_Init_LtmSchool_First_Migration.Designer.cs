@@ -12,7 +12,7 @@ using System;
 namespace LTM.School.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    [Migration("20171202050052_Init_LtmSchool_First_Migration")]
+    [Migration("20171202071709_Init_LtmSchool_First_Migration")]
     partial class Init_LtmSchool_First_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

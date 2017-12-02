@@ -13,7 +13,10 @@ namespace LTM.School.EntityFramework.Data
 
             // 检查是否有学生信息
             if (context.Students.Any())
+            {
                 return; //返回，不执行。
+            }
+               
 
             #region 添加种子学生信息
 
@@ -248,12 +251,8 @@ namespace LTM.School.EntityFramework.Data
                 {
                     CourseId = courses.Single(c => c.Title == "历史").CourseId,
                     InstructorId = instructors.Single(i => i.RealName == "朱熹").Id
-                },
-                new CourseAssignment
-                {
-                    CourseId = courses.Single(c => c.Title == "Literature").CourseId,
-                    InstructorId = instructors.Single(i => i.RealName == "Abercrombie").Id
                 }
+               
             };
 
             foreach (var ci in courseInstructors)
