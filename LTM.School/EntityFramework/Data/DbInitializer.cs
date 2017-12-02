@@ -184,17 +184,17 @@ namespace LTM.School.EntityFramework.Data
             {
                 new OfficeAssignment
                 {
-                    InstrctorId = instructors.Single(i => i.RealName == "孟子").Id,
+                    InstructorId = instructors.Single(i => i.RealName == "孟子").Id,
                     Location = "逸夫楼 17"
                 },
                 new OfficeAssignment
                 {
-                    InstrctorId = instructors.Single(i => i.RealName == "朱熹").Id,
+                    InstructorId = instructors.Single(i => i.RealName == "朱熹").Id,
                     Location = "青霞路 27"
                 },
                 new OfficeAssignment
                 {
-                    InstrctorId = instructors.Single(i => i.RealName == "墨子").Id,
+                    InstructorId = instructors.Single(i => i.RealName == "墨子").Id,
                     Location = "天府楼 304"
                 }
             };

@@ -12,9 +12,10 @@ using System;
 namespace LTM.School.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171202050052_Init_LtmSchool_First_Migration")]
+    partial class Init_LtmSchool_First_Migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

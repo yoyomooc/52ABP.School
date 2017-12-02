@@ -13,7 +13,7 @@ namespace LTM.School.Core.Models
         /// 教师Id
         /// </summary>
         [Key]
-        public int InstrctorId { get; set; }
+        public int InstructorId { get; set; }
         
         /// <summary>
         /// 办公室的位置
