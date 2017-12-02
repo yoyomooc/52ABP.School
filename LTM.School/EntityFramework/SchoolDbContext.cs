@@ -28,13 +28,13 @@ namespace LTM.School.EntityFramework
         {
             modelBuilder.Entity<Student>().ToTable("Student");
             modelBuilder.Entity<Course>().ToTable("Course").Property(a=>a.CourseId).ValueGeneratedNever();
-            modelBuilder.Entity<CourseAssignment>().ToTable("CourseAssignment").HasKey(a=>new {a.CourseId,a.InstructorId});
+            modelBuilder.Entity<CourseAssignment>().ToTable("CourseAssignment");
             modelBuilder.Entity<Department>().ToTable("Department");
-            modelBuilder.Entity<Instructor>().ToTable("Instructor");
-            modelBuilder.Entity<OfficeAssignment>().ToTable("OfficeAssignment");
+            modelBuilder.Entity<Instructor>().ToTable("Instructor").HasKey(a=>a.Id);
+            modelBuilder.Entity<OfficeAssignment>().ToTable("OfficeAssignment").HasKey(a=>a.InstrctorId);
 
 
-
+            modelBuilder.Entity<CourseAssignment>().HasKey(a => new {a.CourseId, a.InstructorId});
         }
 
 

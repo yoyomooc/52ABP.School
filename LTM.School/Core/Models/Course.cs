@@ -32,7 +32,7 @@ namespace LTM.School.Core.Models
         /// </summary>
         public int DepartmentId { get; set; }
 
-
+        public Department Department { get; set; }
         public ICollection<CourseAssignment> CourseAssignments { get; set; }
 
         public ICollection<Enrollment> Enrollments { get; set; }

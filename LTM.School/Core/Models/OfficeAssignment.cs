@@ -14,24 +14,17 @@ namespace LTM.School.Core.Models
         /// </summary>
         [Key]
         public int InstrctorId { get; set; }
-
-        /// <summary>
-        /// 教师的导航属性
-        /// </summary>
-        public Instructor Instructor { get; set; }
-
-
-
+        
         /// <summary>
         /// 办公室的位置
         /// </summary>
        [StringLength(50)]
         [Display(Name = "Office Location")]
-        public string Location
-        {
-            get; set;
-            
-        }
+        public string Location{get; set;}
+        /// <summary>
+        /// 教师的导航属性
+        /// </summary>
+        public Instructor Instructor { get; set; }
 
     }
 }

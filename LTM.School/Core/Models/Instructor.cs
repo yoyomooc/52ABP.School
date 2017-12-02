@@ -15,6 +15,7 @@ namespace LTM.School.Core.Models
 
         public  DateTime HireDate { get; set; }
 
+        
 
         public ICollection<CourseAssignment> CourseAssignments { get; set; }
 

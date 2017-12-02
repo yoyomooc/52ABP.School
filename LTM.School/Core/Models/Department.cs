@@ -28,9 +28,11 @@ namespace LTM.School.Core.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}",ApplyFormatInEditMode = true)]
         [Display(Name = "开课时间")]
-        public DateTime StarDate { get; set; }
+        public DateTime StartDate { get; set; }
 
-
+        /// <summary>
+        /// 办公室主任
+        /// </summary>
         public int? InstructorId { get; set; }
 
         /// <summary>
