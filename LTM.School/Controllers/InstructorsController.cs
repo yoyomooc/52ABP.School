@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LTM.School.Core.Models;
@@ -6,6 +7,7 @@ using LTM.School.EntityFramework;
 using LTM.School.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 namespace LTM.School.Controllers
 {
@@ -66,6 +68,13 @@ namespace LTM.School.Controllers
         // GET: Instructors/Create
         public IActionResult Create()
         {
+            var instructor = new Instructor {CourseAssignments = new List<CourseAssignment>()};
+
+
+
+            PopulateAssignedCourseData(instructor);
+
+
             return View();
         }
 
@@ -74,14 +83,35 @@ namespace LTM.School.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RealName,HireDate")] Instructor instructor)
+        public async Task<IActionResult> Create([Bind("RealName,HireDate,OfficeAssignment")] Instructor instructor,string [] selectedCourses)
         {
+
+            if (selectedCourses!=null)
+            {
+            
+
+
+                instructor.CourseAssignments=new List<CourseAssignment>();
+                foreach (var courseId in selectedCourses)
+                {
+                    var course = new CourseAssignment
+                    {
+                        CourseId = Convert.ToInt32(courseId),
+                        InstructorId = instructor.Id
+                    };
+                    instructor.CourseAssignments.Add(course);
+                }
+
+            }
+            
             if (ModelState.IsValid)
             {
                 _context.Add(instructor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            PopulateAssignedCourseData(instructor);
+
             return View(instructor);
         }
 
@@ -165,7 +195,11 @@ namespace LTM.School.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var instructor = await _context.Instructors.SingleOrDefaultAsync(m => m.Id == id);
+            var instructor = await _context.Instructors.Include(a=>a.CourseAssignments).SingleOrDefaultAsync(m => m.Id == id);
+            var departments = await _context.Departments.Where(a => a.InstructorId == id).ToListAsync();
+            departments.ForEach(a=>a.InstructorId=null);
+
+
             _context.Instructors.Remove(instructor);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

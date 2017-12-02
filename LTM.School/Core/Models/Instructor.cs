@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace LTM.School.Core.Models
 {
@@ -11,9 +14,12 @@ namespace LTM.School.Core.Models
     {
         public int Id { get; set; }
 
+        [DisplayName("教师信息")]
         public string RealName { get; set; }
-
-        public  DateTime HireDate { get; set; }
+        [DisplayName("入职时间")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime HireDate { get; set; }
 
         
 

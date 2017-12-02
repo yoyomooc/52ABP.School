@@ -19,7 +19,7 @@ namespace LTM.School.Core.Models
         /// 办公室的位置
         /// </summary>
        [StringLength(50)]
-        [Display(Name = "Office Location")]
+        [Display(Name = "办公室")]
         public string Location{get; set;}
         /// <summary>
         /// 教师的导航属性
