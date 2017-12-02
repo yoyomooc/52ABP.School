@@ -32,7 +32,7 @@ namespace LTM.School.EntityFramework
             modelBuilder.Entity<CourseAssignment>().ToTable("CourseAssignment");
             modelBuilder.Entity<Department>().ToTable("Department");
             modelBuilder.Entity<Instructor>().ToTable("Instructor").HasKey(a=>a.Id);
-            modelBuilder.Entity<OfficeAssignment>().ToTable("OfficeAssignment");
+            modelBuilder.Entity<OfficeAssignment>().ToTable("OfficeAssignment").HasKey(a=>a.InstructorId);
                
 
 
