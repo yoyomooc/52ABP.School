@@ -35,7 +35,7 @@ namespace LTM.School.Controllers
             }
 
             var course = await _context.Courses
-                .Include(c => c.Department)
+                .Include(c => c.Department).AsNoTracking()
                 .SingleOrDefaultAsync(m => m.CourseId == id);
             if (course == null)
             {
@@ -48,8 +48,9 @@ namespace LTM.School.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
-           
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Id");
+            PopulateDepartmentsDropDownList();
+
+
             return View();
         }
 
@@ -58,7 +59,7 @@ namespace LTM.School.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CourseId,Title,Credits,Grade,DepartmentId")] Course course)
+        public async Task<IActionResult> Create([Bind("CourseId,Title,Credits,DepartmentId")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +67,9 @@ namespace LTM.School.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Id", course.DepartmentId);
+            PopulateDepartmentsDropDownList();
+
+
             return View(course);
         }
 
@@ -83,7 +86,8 @@ namespace LTM.School.Controllers
             {
                 return NotFound();
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Id", course.DepartmentId);
+            PopulateDepartmentsDropDownList(course.DepartmentId);
+            //ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Id", course.DepartmentId);
             return View(course);
         }
 
@@ -92,7 +96,7 @@ namespace LTM.School.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CourseId,Title,Credits,Grade,DepartmentId")] Course course)
+        public async Task<IActionResult> Edit(int id, [Bind("CourseId,Title,Credits,DepartmentId")] Course course)
         {
             if (id != course.CourseId)
             {
@@ -119,7 +123,7 @@ namespace LTM.School.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Id", course.DepartmentId);
+            PopulateDepartmentsDropDownList();
             return View(course);
         }
 
@@ -132,7 +136,7 @@ namespace LTM.School.Controllers
             }
 
             var course = await _context.Courses
-                .Include(c => c.Department)
+                .Include(c => c.Department).AsNoTracking()
                 .SingleOrDefaultAsync(m => m.CourseId == id);
             if (course == null)
             {
@@ -157,5 +161,26 @@ namespace LTM.School.Controllers
         {
             return _context.Courses.Any(e => e.CourseId == id);
         }
+
+
+        #region 下拉菜单栏
+        /// <summary>
+        /// 部门信息的下拉菜单
+        /// </summary>
+        /// <param name="selectedDepartment"></param>
+        private void PopulateDepartmentsDropDownList(object selectedDepartment=null)
+        {
+            var departments = from d in _context.Departments orderby d.Name select d;
+
+            ViewBag.DepartmentId=new SelectList(departments.AsNoTracking(), "Id", "Name", selectedDepartment);
+
+        }
+
+
+
+        #endregion
+
+
+
     }
 }

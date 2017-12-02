@@ -4,13 +4,19 @@
     ViewData["Title"] = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>删除</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>你是否确定要删除以下课程信息？</h3>
 <div>
-    <h4>Course</h4>
+
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CourseId)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>
@@ -33,13 +39,13 @@
             @Html.DisplayNameFor(model => model.Department)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Department.Id)
+            @Html.DisplayFor(model => model.Department.Name)
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="CourseId" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="删除" class="btn btn-default" /> |
+        <a asp-action="Index">返回列表</a>
     </form>
 </div>

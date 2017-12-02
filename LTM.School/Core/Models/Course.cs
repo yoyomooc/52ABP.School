@@ -30,12 +30,13 @@ namespace LTM.School.Core.Models
         [DisplayName("课程成绩")]
         public CourseGrade Grade { get; set; }
 
-       
+
         /// <summary>
         /// 部门id
         /// </summary>
+        [DisplayName("部门信息")]
         public int DepartmentId { get; set; }
-
+        [DisplayName("部门信息")]
         public Department Department { get; set; }
         public ICollection<CourseAssignment> CourseAssignments { get; set; }
 
