@@ -1,0 +1,55 @@
+﻿@model LTM.School.Core.Models.Department
+
+@{
+    ViewData["Title"] = "删除部门信息";
+}
+
+<h2>删除</h2>
+<p class="text-danger">@ViewBag.concurrencyError</p>
+<h3>您确定要删除该条信息吗？</h3>
+<div>
+    <h4>部门信息</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Budget)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Budget)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RowVersion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RowVersion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Administrator)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Administrator.RealName)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="RowVersion" />
+        <div class="form-actions no-color">
+            <input type="submit" value="删除" class="btn btn-default" /> |
+            <a asp-action="Index">返回列表</a>
+        </div>
+        
+    </form>
+</div>

@@ -22,6 +22,7 @@ namespace LTM.School.Core.Models
         /// </summary>
         [Column(TypeName = "money")]
         [DataType(DataType.Currency)]
+        [DisplayName("预算")]
         public decimal Budget { get; set; }
 
         /// <summary>
@@ -35,17 +36,22 @@ namespace LTM.School.Core.Models
         /// <summary>
         /// 办公室主任
         /// </summary>
+        [DisplayName("办公室主任")]
         public int? InstructorId { get; set; }
 
         /// <summary>
         /// 办公室主任
         /// </summary>
+        [DisplayName("办公室主任")]
         public  Instructor Administrator { get; set; }
 
         /// <summary>
         /// 课程
         /// </summary>
         public ICollection<Course> Courses { get; set; }
+
+        [Timestamp]
+        public  byte[] RowVersion { get; set; }
 
 
 
