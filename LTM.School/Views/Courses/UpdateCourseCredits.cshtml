@@ -1,0 +1,31 @@
+﻿ 
+@{
+    ViewBag.Title = "修改课程学分";
+    
+}
+
+<h2>修改课程学分信息</h2>
+
+@if (ViewData["RowsAffected"] == null)
+{
+    <form asp-action="UpdateCourseCredits">
+        <div class="form-actions no-color">
+            <p>
+                输入一个数字，我会把每门课程乘以这个系数： @Html.TextBox("credits")
+            </p>
+            <p>
+                <input type="submit" value="修改" class="btn btn-default" />
+            </p>
+        </div>
+    </form>
+}
+@if (ViewData["RowsAffected"] != null)
+{
+    <p>
+        更新了多少行 : @ViewData["RowsAffected"]
+    </p>
+}
+<div>
+    @Html.ActionLink("返回列表", "Index")
+</div>
+

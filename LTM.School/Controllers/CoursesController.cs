@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using LTM.School.Core.Models;
+using LTM.School.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LTM.School.Core.Models;
-using LTM.School.EntityFramework;
 
 namespace LTM.School.Controllers
 {
@@ -30,17 +28,13 @@ namespace LTM.School.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var course = await _context.Courses
                 .Include(c => c.Department).AsNoTracking()
                 .SingleOrDefaultAsync(m => m.CourseId == id);
             if (course == null)
-            {
                 return NotFound();
-            }
 
             return View(course);
         }
@@ -77,15 +71,11 @@ namespace LTM.School.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var course = await _context.Courses.SingleOrDefaultAsync(m => m.CourseId == id);
             if (course == null)
-            {
                 return NotFound();
-            }
             PopulateDepartmentsDropDownList(course.DepartmentId);
             //ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Id", course.DepartmentId);
             return View(course);
@@ -99,9 +89,7 @@ namespace LTM.School.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("CourseId,Title,Credits,DepartmentId")] Course course)
         {
             if (id != course.CourseId)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -113,13 +101,8 @@ namespace LTM.School.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!CourseExists(course.CourseId))
-                    {
                         return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -131,23 +114,20 @@ namespace LTM.School.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var course = await _context.Courses
                 .Include(c => c.Department).AsNoTracking()
                 .SingleOrDefaultAsync(m => m.CourseId == id);
             if (course == null)
-            {
                 return NotFound();
-            }
 
             return View(course);
         }
 
         // POST: Courses/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -157,6 +137,23 @@ namespace LTM.School.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        public IActionResult UpdateCourseCredits()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCourseCredits(int? credits)
+        {
+            if (credits != null)
+                ViewData["RowsAffected"] =
+                    await _context.Database.ExecuteSqlCommandAsync(@"UPDATE Course SET Credits = Credits * {0}", credits);
+
+            return View();
+        }
+
+
         private bool CourseExists(int id)
         {
             return _context.Courses.Any(e => e.CourseId == id);
@@ -164,23 +161,18 @@ namespace LTM.School.Controllers
 
 
         #region 下拉菜单栏
+
         /// <summary>
-        /// 部门信息的下拉菜单
+        ///     部门信息的下拉菜单
         /// </summary>
         /// <param name="selectedDepartment"></param>
-        private void PopulateDepartmentsDropDownList(object selectedDepartment=null)
+        private void PopulateDepartmentsDropDownList(object selectedDepartment = null)
         {
             var departments = from d in _context.Departments orderby d.Name select d;
 
-            ViewBag.DepartmentId=new SelectList(departments.AsNoTracking(), "Id", "Name", selectedDepartment);
-
+            ViewBag.DepartmentId = new SelectList(departments.AsNoTracking(), "Id", "Name", selectedDepartment);
         }
 
-
-
         #endregion
-
-
-
     }
 }
