@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using LTM.School.EntityFramework;
@@ -27,19 +30,68 @@ namespace LTM.School.Controllers
         public async Task<IActionResult> About()
         {
             ViewData["Message"] = "学生统计信息";
-            
-            var entities = from entity in _context.Students
-                group entity by entity.EnrollmentDate
-                into dateGroup
-                select new EnrollmentDateGroup()
+
+
+            var groups = new List<EnrollmentDateGroup>();
+
+
+            var conn = _context.Database.GetDbConnection();
+
+
+            try
+            {
+                await conn.OpenAsync();
+
+                using (var command=conn.CreateCommand())
                 {
-                    EnrollmenDate = dateGroup.Key,
-                    StudentCount = dateGroup.Count()
-                };
+                    string sqlQuery = @"select  EnrollmentDate,  COUNT(*) as StudentCount     from person where Discriminator='Student' group by EnrollmentDate";
 
-            var dtos = await entities.AsNoTracking().ToListAsync();
+                    command.CommandText = sqlQuery;
 
-            return View(dtos);
+                    DbDataReader reader = await command.ExecuteReaderAsync();
+
+                    if (reader.HasRows)
+                    {
+                        while (await  reader.ReadAsync())
+                        {
+                            var row= new  EnrollmentDateGroup()
+                            {
+                                EnrollmenDate = reader.GetDateTime(0),
+                                StudentCount =  reader.GetInt32(1)
+                            };
+                          groups.Add(row);
+
+                        }
+                    }
+                    reader.Dispose();
+                }
+
+
+
+
+
+
+            }
+            finally 
+            {
+               conn.Close();
+            }
+            return View(groups);
+
+
+
+            //var entities = from entity in _context.Students
+            //    group entity by entity.EnrollmentDate
+            //    into dateGroup
+            //    select new EnrollmentDateGroup()
+            //    {
+            //        EnrollmenDate = dateGroup.Key,
+            //        StudentCount = dateGroup.Count()
+            //    };
+
+            //var dtos = await entities.AsNoTracking().ToListAsync();
+
+            //return View(dtos);
         }
 
         public IActionResult Contact()

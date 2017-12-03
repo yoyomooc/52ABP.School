@@ -30,9 +30,13 @@ namespace LTM.School.Controllers
             if (id == null)
                 return NotFound();
 
-            var department = await _context.Departments
+            string sqlQuery = "select * from Department where Id={0}";
+            
+
+            var department = await _context.Departments.FromSql(sqlQuery,id)
                 .Include(d => d.Administrator)
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .AsNoTracking()
+                .SingleOrDefaultAsync();
             if (department == null)
                 return NotFound();
 
