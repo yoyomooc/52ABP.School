@@ -10,12 +10,10 @@ namespace LTM.School.Core.Models
     /// <summary>
     /// 教师
     /// </summary>
-    public class Instructor
+    public class Instructor:Person
     {
-        public int Id { get; set; }
-
-        [DisplayName("教师信息")]
-        public string RealName { get; set; }
+       
+     
         [DisplayName("入职时间")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

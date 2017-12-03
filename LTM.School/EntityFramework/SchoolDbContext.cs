@@ -16,6 +16,7 @@ namespace LTM.School.EntityFramework
         public DbSet<Enrollment> Enrollments { get; set; }
 
         public DbSet<Student> Students { get; set; }
+        public DbSet<Person> Persons { get; set; }
 
         public DbSet<CourseAssignment> CourseAssignments { get; set; }
         public DbSet<Department> Departments { get; set; }
@@ -27,11 +28,12 @@ namespace LTM.School.EntityFramework
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Student>().ToTable("Student");
+            modelBuilder.Entity<Person>().ToTable("Person");
             modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
             modelBuilder.Entity<Course>().ToTable("Course").Property(a=>a.CourseId).ValueGeneratedNever();
             modelBuilder.Entity<CourseAssignment>().ToTable("CourseAssignment");
             modelBuilder.Entity<Department>().ToTable("Department");
-            modelBuilder.Entity<Instructor>().ToTable("Instructor").HasKey(a=>a.Id);
+            modelBuilder.Entity<Instructor>().ToTable("Instructor");
             modelBuilder.Entity<OfficeAssignment>().ToTable("OfficeAssignment").HasKey(a=>a.InstructorId);
                
 
