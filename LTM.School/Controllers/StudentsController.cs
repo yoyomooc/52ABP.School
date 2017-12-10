@@ -70,7 +70,7 @@ namespace LTM.School.Controllers
 
             #endregion
 
-            var pageSize = 3;
+            var pageSize = 5;
 
 
             var entities = students.AsNoTracking();
