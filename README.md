@@ -23,4 +23,6 @@ Github推送代码到Vsts仓库。
  地址： https://github.com/52ABP/52ABP.School
 
 
-
+# 视频教程地址：
+百度传课：
+https://chuanke.baidu.com/3735870-241896.html
