@@ -25,10 +25,15 @@ namespace LTM.School.Controllers
         {
             var viewModel = new InstructorIndexData
             {
-                Instructors = await _context.Instructors.Include(a => a.OfficeAssignment)
+                Instructors = await _context.Instructors
+                    .Include(a => a.OfficeAssignment)
                     .Include(a => a.CourseAssignments)
-                    .ThenInclude(a => a.Course).ThenInclude(a => a.Enrollments).ThenInclude(a => a.Student)
-                    .Include(a => a.CourseAssignments).ThenInclude(a => a.Course).ThenInclude(a => a.Department)
+                    .ThenInclude(a => a.Course)
+                    .ThenInclude(a => a.Enrollments)
+                    .ThenInclude(a => a.Student)
+                    .Include(a => a.CourseAssignments)
+                    .ThenInclude(a => a.Course)
+                    .ThenInclude(a => a.Department)
                     .AsNoTracking().OrderBy(a => a.RealName).ToListAsync()
             };
 
