@@ -7,7 +7,6 @@ using LTM.School.EntityFramework;
 using LTM.School.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using StackExchange.Redis;
 
 namespace LTM.School.Controllers
 {
