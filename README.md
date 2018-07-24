@@ -1,6 +1,7 @@
 # 欢迎大家来到52ABP学校 
 
 52ABP实战系列教程入门-52ABP学校管理系统
+
 ## >预览网址>：http://school.yoyocms.com/
 
 本次课程会使用.NET CORE及EF CORE作为核心技术，带大家做出一个简单的学校管理系统。
@@ -26,11 +27,14 @@ Github推送代码到Vsts仓库。
 
 
 # 视频教程地址：
-百度传课：
-https://chuanke.baidu.com/3735870-241896.html
+
+腾讯课堂：
+https://52abp.ke.qq.com/
+
+视频直达链接：
+https://ke.qq.com/course/264279?tuin=2522cdf3
 
 网易云课堂：
 http://study.163.com/provider/400000000309007/index.htm
 
-腾讯课堂：
-https://52abp.ke.qq.com/
+
