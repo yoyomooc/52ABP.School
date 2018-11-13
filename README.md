@@ -42,13 +42,16 @@ SyncToGithub的编译状态：[<img src="https://52abp.visualstudio.com/_apis/pu
 
 # 视频教程地址：
 
-腾讯课堂：
-https://52abp.ke.qq.com/
-
-视频直达链接：
-https://ke.qq.com/course/264279?tuin=2522cdf3
-
 网易云课堂：
-http://study.163.com/provider/400000000309007/index.htm
+https://study.163.com/provider/400000000309007/index.htm?share=2&shareId=400000000309007
+
+本课程地址：
+https://study.163.com/course/courseMain.htm?courseId=1004710017&share=2&shareId=400000000309007
+
+【推荐课程】52abp框架asp.net core & Angular全栈开发实战视频课程：
+https://dwz.cn/kQydQrTe
+
+
+
 
 
