@@ -1,4 +1,6 @@
-﻿@{
+﻿@using System.Runtime.InteropServices
+@using Microsoft.Extensions.DependencyModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -11,18 +13,42 @@
     <div class="col-md-4">
             <h2>欢迎大家来到52ABP学校</h2>
         <p>
-           本次课程会使用.NET CORE及EF CORE作为核心技术，带大家做出一个简单的学校管理系统。
+            本次课程会使用.NET CORE及EF CORE作为核心技术，带大家做出一个简单的学校管理系统。
+            52ABP:基于DDD强大稳定的WEB应用框架! 开源
+            后端： .NET CORE + EF CORE +ABP +WeiXinMPSDK等组件
+            前端： Angular + Ng - Zorro + Ng - Alain + JQuery等组件 
+            打造一款符合中国人开发习惯的框架。<a href="www.52abp.com" target="_blank">52abp.com</a>
         </p>
         </div>
     <div class="col-md-4">
         <h2>从0开始</h2>
         <p>这可以跟着视频一步一步的完成它。</p>
+        <p>当前服务器运行环境信息如下：</p>
+        <ul>
+            <li>
+                系统架构：@RuntimeInformation.OSArchitecture.ToString()
+              
+            </li>
+            <li>   系统名称：@RuntimeInformation.OSDescription.ToString()</li>
+            <li> 进程架构：@RuntimeInformation.ProcessArchitecture.ToString()</li>
+            <li>  是否64位操作系统：@Environment.Is64BitOperatingSystem.ToString()</li>
+           
+            @foreach (var runtimeLibrary in DependencyContext.Default.RuntimeLibraries.Where(a=>a.Name.Contains("Microsoft.NETCore.App")).ToList())
+            {
+                <li> @runtimeLibrary.Name 版本：<b> @runtimeLibrary.Version </b></li>
+            }
+            
+        </ul>
     </div>
     <div class="col-md-4">
         <h2>如何下载</h2>
         <p>所有课程的源代码均可以到Github进行下载！</p>
         <p>地址： <a target="_parent"  href="https://github.com/52ABP/52ABP.School ">https://github.com/52ABP/52ABP.School </a></p>
-    </div>
+    
+      
+
+       
+        </div>
 </div>
 
  

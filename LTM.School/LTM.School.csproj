@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <ApplicationInsightsResourceId>/subscriptions/b557380d-e768-4a2f-98f8-7a9a0cbd23bf/resourcegroups/52ABP/providers/microsoft.insights/components/52ABP-School</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/b557380d-e768-4a2f-98f8-7a9a0cbd23bf/resourcegroups/52ABP/providers/microsoft.insights/components/52ABP-School</ApplicationInsightsAnnotationResourceId>
+    <UserSecretsId>d2d75bca-b832-482f-9797-5a7ab4a91b68</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -16,6 +16,17 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?b7f28af9f39d6a735428df0024b44e6b";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
@@ -38,7 +49,7 @@
                     <li><a asp-area="" asp-controller="Instructors" asp-action="Index">教师信息</a></li>
                     <li><a asp-area="" asp-controller="Departments" asp-action="Index">部门管理</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">关于本站</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">联系我们</a></li>
+                    <li><a style="color: coral"  href="https://www.52abp.com/" target="_blank" >52ABP官方网站</a></li>
                 </ul>
             </div>
         </div>
@@ -47,9 +58,12 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - 52ABP学校管理系统 <script type="text/javascript">
-                                                           var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://"); document.write(unescape("%3Cspan id='cnzz_stat_icon_1273631610'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/stat.php%3Fid%3D1273631610%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));
-                                                       </script></p>
+            <p>
+                &copy; @DateTime.Now.Year - 52ABP学校管理系统
+                <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://"); document.write(unescape("%3Cspan id='cnzz_stat_icon_1274306527'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/stat.php%3Fid%3D1274306527%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+            </p>
+
 
         </footer>
     </div>
