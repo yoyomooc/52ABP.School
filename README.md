@@ -18,6 +18,19 @@ Github推送代码到Vsts仓库。
 
 这可以跟着视频一步一步的完成它。
 
+# 快速启动
+
+如果你电脑没有安装Sqlserver ，那么请修改`appsettings.json`中的信息，使用下面的链接字符串：
+``` xml
+ "Default": "Server=(localdb)\\mssqllocaldb;Database=ContosoUniversity2;Trusted_Connection=True;MultipleActiveResultSets=true"
+```
+
+首先要生成数据库
+![File](docs/file.png)
+在程序包管理器控制台执行：`update-database`
+
+
+
 
 # 如何下载
 
