@@ -2,7 +2,7 @@
 
 52ABP实战系列教程入门-52ABP学校管理系统
 
-## >预览网址>：https://school.yoyocms.com/
+## >Demo网址>： https://school.yoyocms.com/
 
 本次课程会使用.NET CORE及EF CORE作为核心技术，带大家做出一个简单的学校管理系统。
 
@@ -10,9 +10,6 @@ SyncToGithub的编译状态：[<img src="https://52abp.visualstudio.com/_apis/pu
  VSTS推送代码到github。
 
 
-
-SyncFromGitHub的编译状态：[<img src="https://52abp.visualstudio.com/_apis/public/build/definitions/ca83ba7d-c1a1-4c51-b7e2-d889c38e3d13/4/badge">](https://52abp.visualstudio.com/_apis/public/build/definitions/ca83ba7d-c1a1-4c51-b7e2-d889c38e3d13/4/badge)
-Github推送代码到Vsts仓库。
 
 # 从0开始
 
@@ -29,8 +26,12 @@ Github推送代码到Vsts仓库。
 ![File](docs/file.png)
 在程序包管理器控制台执行：`update-database`
 
+![File1](docs/file1.png)
 
+执行完成后，输入快捷键`ctrl+F5 `快速启动项目
 
+## 截图
+![File12](docs/file12.png)
 
 # 如何下载
 
