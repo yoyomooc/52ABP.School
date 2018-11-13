@@ -2,7 +2,7 @@
 
 52ABP实战系列教程入门-52ABP学校管理系统
 
-## >预览网址>：http://school.yoyocms.com/
+## >预览网址>：https://school.yoyocms.com/
 
 本次课程会使用.NET CORE及EF CORE作为核心技术，带大家做出一个简单的学校管理系统。
 
