@@ -1,0 +1,160 @@
+version: '2'
+
+services:
+  redis:
+    restart: always
+    image: sameersbn/redis:4.0.9-2
+    command:
+    - --loglevel warning
+    volumes:
+    - redis-data:/var/lib/redis:Z
+
+  postgresql:
+    restart: always
+    image: sameersbn/postgresql:10-2
+    volumes:
+    - postgresql-data:/var/lib/postgresql:Z
+    environment:
+    - DB_USER=gitlab
+    - DB_PASS=password
+    - DB_NAME=gitlabhq_production
+    - DB_EXTENSION=pg_trgm
+
+  gitlab:
+    restart: always
+    image: sameersbn/gitlab:12.4.2
+    depends_on:
+    - redis
+    - postgresql
+    ports:
+    - "10080:80"
+    - "10022:22"
+    volumes:
+    - gitlab-data:/home/git/data:Z
+    environment:
+    - DEBUG=false
+
+    - DB_ADAPTER=postgresql
+    - DB_HOST=postgresql
+    - DB_PORT=5432
+    - DB_USER=gitlab
+    - DB_PASS=password
+    - DB_NAME=gitlabhq_production
+
+    - REDIS_HOST=redis
+    - REDIS_PORT=6379
+
+    - TZ=Asia/Beijing   # 可以改为 Asia/Beijing，Rails 中不支持 Shanghai
+    - GITLAB_TIMEZONE=Beijing
+
+    - GITLAB_HTTPS=false  # 如果需要使用 HTTPS，需要设为 true
+    - SSL_SELF_SIGNED=false # 如果需要使用自己签名的证书，需要设为 true
+
+    - GITLAB_HOST= git.cyanstream.com    # 改为自己的域名，我的是 https://gitlab.52abp.com
+    - GITLAB_PORT=10080 # 改为自己的端口号
+    - GITLAB_SSH_PORT=10022
+    - GITLAB_RELATIVE_URL_ROOT=
+    - GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alphanumeric-string
+    - GITLAB_SECRETS_SECRET_KEY_BASE=long-and-random-alphanumeric-string
+    - GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alphanumeric-string
+
+    - GITLAB_ROOT_PASSWORD=wer??5566
+    - GITLAB_ROOT_EMAIL=ltm@ddxc.org
+
+    - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true
+    - GITLAB_NOTIFY_PUSHER=false
+
+    - GITLAB_EMAIL=info@ddxc.org
+    - GITLAB_EMAIL_REPLY_TO=info@ddxc.org
+    - GITLAB_INCOMING_EMAIL_ADDRESS=info@ddxc.org
+
+    - GITLAB_BACKUP_SCHEDULE=daily
+    - GITLAB_BACKUP_TIME=01:00
+
+    - GITLAB_EMAIL_ENABLED=true
+# 邮箱配置
+    - SMTP_ENABLED=true
+    - SMTP_DOMAIN=git.cyanstream.com
+    - SMTP_HOST=smtp.office365.com
+    - SMTP_PORT=587
+    - SMTP_USER=info@ddxc.org
+    - SMTP_PASS=bb123456??
+    - SMTP_STARTTLS=true
+    - SMTP_AUTHENTICATION=login
+
+    - IMAP_ENABLED=false
+    - IMAP_HOST=imap.gmail.com
+    - IMAP_PORT=993
+    - IMAP_USER=mailer@example.com
+    - IMAP_PASS=password
+    - IMAP_SSL=true
+    - IMAP_STARTTLS=false
+
+    - OAUTH_ENABLED=false
+    - OAUTH_AUTO_SIGN_IN_WITH_PROVIDER=
+    - OAUTH_ALLOW_SSO=
+    - OAUTH_BLOCK_AUTO_CREATED_USERS=true
+    - OAUTH_AUTO_LINK_LDAP_USER=false
+    - OAUTH_AUTO_LINK_SAML_USER=false
+    - OAUTH_EXTERNAL_PROVIDERS=
+
+    - OAUTH_CAS3_LABEL=cas3
+    - OAUTH_CAS3_SERVER=
+    - OAUTH_CAS3_DISABLE_SSL_VERIFICATION=false
+    - OAUTH_CAS3_LOGIN_URL=/cas/login
+    - OAUTH_CAS3_VALIDATE_URL=/cas/p3/serviceValidate
+    - OAUTH_CAS3_LOGOUT_URL=/cas/logout
+
+    - OAUTH_GOOGLE_API_KEY=
+    - OAUTH_GOOGLE_APP_SECRET=
+    - OAUTH_GOOGLE_RESTRICT_DOMAIN=
+
+    - OAUTH_FACEBOOK_API_KEY=
+    - OAUTH_FACEBOOK_APP_SECRET=
+
+    - OAUTH_TWITTER_API_KEY=
+    - OAUTH_TWITTER_APP_SECRET=
+
+    - OAUTH_GITHUB_API_KEY=80aa315698f7e2732e33
+    - OAUTH_GITHUB_APP_SECRET= 7813aabdb5814e834523b1dd7d2c0babb210eb84
+      #    - OAUTH_GITHUB_URL=
+    - OAUTH_GITHUB_VERIFY_SSL=false
+
+    - OAUTH_GITLAB_API_KEY=
+    - OAUTH_GITLAB_APP_SECRET=
+
+    - OAUTH_BITBUCKET_API_KEY=
+    - OAUTH_BITBUCKET_APP_SECRET=
+
+    - OAUTH_SAML_ASSERTION_CONSUMER_SERVICE_URL=
+    - OAUTH_SAML_IDP_CERT_FINGERPRINT=
+    - OAUTH_SAML_IDP_SSO_TARGET_URL=
+    - OAUTH_SAML_ISSUER=
+    - OAUTH_SAML_LABEL="Our SAML Provider"
+    - OAUTH_SAML_NAME_IDENTIFIER_FORMAT=urn:oasis:names:tc:SAML:2.0:nameid-format:transient
+    - OAUTH_SAML_GROUPS_ATTRIBUTE=
+    - OAUTH_SAML_EXTERNAL_GROUPS=
+    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_EMAIL=
+    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_NAME=
+    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_USERNAME=
+    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_FIRST_NAME=
+    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_LAST_NAME=
+
+    - OAUTH_CROWD_SERVER_URL=
+    - OAUTH_CROWD_APP_NAME=
+    - OAUTH_CROWD_APP_PASSWORD=
+
+    - OAUTH_AUTH0_CLIENT_ID=
+    - OAUTH_AUTH0_CLIENT_SECRET=
+    - OAUTH_AUTH0_DOMAIN=
+    - OAUTH_AUTH0_SCOPE=
+
+    - OAUTH_AZURE_API_KEY=
+    - OAUTH_AZURE_API_SECRET=
+    - OAUTH_AZURE_TENANT_ID=
+
+volumes:
+  redis-data:
+  postgresql-data:
+  gitlab-data:
+
